@@ -1,0 +1,70 @@
+/*
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+You must write an algorithm that runs in O(n) time and without using the division operation.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+Example 2:
+
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+
+Input: nums = [0,4,0]
+Output: [0,0,0]
+
+*/
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+
+// O(n) with division operator. checks if 0's, if no 0's then multiply all number and return mul/thatnumber for each ele. If more than 1 0's then all ele result should be 0 
+//else if 1 0's then only 0's will have multiplication of all other ele in array and rest 0
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        vector<int> res;
+        int mul=1;
+        for(int i=0;i<nums.size();i++)
+            mul*=nums[i];
+        if(mul==0){
+            int mul_nozeros=1,count=0;
+            for(int i=0;i<nums.size();i++){
+                if(nums[i]==0)
+                    continue;
+                else{
+                    count++;
+                    mul_nozeros*=nums[i];
+                }
+            }
+            if(count==0 || count<nums.size()-1){
+                for(int i=0;i<nums.size();i++)
+                    res.push_back(0);
+            }
+            else{
+            for(int i=0;i<nums.size();i++){
+                if(nums[i]!=0)
+                    res.push_back(0);
+                else
+                    res.push_back(mul_nozeros);
+            }
+            }
+    }
+        else{
+            for(int i=0;i<nums.size();i++)
+                res.push_back(mul/nums[i]);
+        }
+        return res;
+    }
+};
+
+//Efficient 
+
+
