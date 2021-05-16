@@ -65,6 +65,15 @@ public:
     }
 };
 
-//Efficient 
+//Better O(N) - time & space
 
+//create a left [] and store value of multiplication of elements upto that ele from left
+//create a right [] and store value of multiplication of elements upto that ele from right
+//except boundary ele op[i]=left[i-1]*right[i+1]; //1st ele=right[i+1] //last ele=left[i-1]
+
+
+//Efficient O(N) time O(1)space
+
+//o/p array will be same as left array and initially product=1 & last ele=op[i-1] && 1st ele== product
+// rest for all ele op[i]=op[i-1]*product && product*=ip[i]
 
