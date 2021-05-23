@@ -1,0 +1,59 @@
+/*
+Given the head of a linked list, remove the nth node from the end of the list and return its head.
+
+Follow up: Could you do this in one pass?
+
+Example 1:
+
+
+Input: head = [1,2,3,4,5], n = 2
+Output: [1,2,3,5]
+Example 2:
+
+Input: head = [1], n = 1
+Output: []
+Example 3:
+
+Input: head = [1,2], n = 1
+Output: [1]
+*/
+
+//O(N) & one pass : The difference between the final node and the to_be_delete node is N. And here the assumption is that n is always valid.
+
+// fast pointer points to the node which is N step away from the to_be_delete node.
+
+// slow pointer points to the to_be_delete node.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *curr=head,*prev=head;;
+        for(int i=0;i<n;i++){
+            curr=curr->next;
+        }
+        if(curr==NULL){
+            head=head->next;
+            delete prev;
+            return head;
+        }
+        while(curr->next){
+            curr=curr->next;
+            prev=prev->next;
+        }
+        ListNode *toDelete = prev->next;
+        prev->next=toDelete->next;
+        delete toDelete;
+        return head;
+    }
+    
+};
