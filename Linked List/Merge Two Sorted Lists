@@ -1,0 +1,48 @@
+Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Example 1:
+Input: l1 = [1,2,4], l2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+
+Example 2:
+Input: l1 = [], l2 = []
+Output: []
+
+Example 3:
+Input: l1 = [], l2 = [0]
+Output: [0]
+
+//Naive O(N) space & O(nlogn) time : create a vector and push all elements to vectors and sort the vector and then create a LL from vector
+
+//Optimized O(N) time & O(1) space : compare value and move and use a pointer curr(0){initially} and point it to next larger element
+//Once a list is empty, point current->next to list2
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1==NULL && l2==NULL)
+            return NULL;
+        if(l1==NULL)
+            return l2;
+        if(l2==NULL)
+            return l1;
+        ListNode *curr=new ListNode(0);
+        ListNode *head=curr;
+        while(l1 && l2){
+            if(l1->val<l2->val){
+                curr->next=l1;
+                l1=l1->next;
+            }
+            else{
+                curr->next=l2;
+                l2=l2->next;
+            }
+            curr=curr->next;
+        }
+        if(l1)
+            curr->next=l1;
+        if(l2)
+            curr->next=l2;
+        return head->next;
+    }
+};
