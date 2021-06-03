@@ -7,25 +7,26 @@ Notice that the solution set must not contain duplicate triplets.
 
 Example 1:
 
-I/P : [-2,-2,-1,-1,-1,0,0,0,2,2,2] 
+I/P : [-2,-2,-1,-1,-1,0,0,0,2,2,2] : test case(striver)
+
 
 Input: nums = [-1,0,1,2,-1,-4]
 Output: [[-1,-1,2],[-1,0,1]]
-Example 2:
 
+Example 2:
 Input: nums = []
 Output: []
-Example 3:
 
+Example 3:
 Input: nums = [0]
 Output: []
 */
 
-//Naive O(n^3)
+//Naive O(n^3 logn) - use 3 loops and logn for inserting in set 
 
-//Better O(n^2) space O(n) using sets
+//Better O(n^2 logn) space O(n) using sets
 
-//Best O(n^2) Space O(1)
+//Best O(n^2) Space O(1) - take an element and use 2 pointer approach
 
 class Solution {
 public:
