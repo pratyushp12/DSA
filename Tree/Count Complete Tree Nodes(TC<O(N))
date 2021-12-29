@@ -1,0 +1,52 @@
+Given the root of a complete binary tree, return the number of the nodes in the tree.
+
+According to Wikipedia, every level, except possibly the last, is completely filled in a complete binary tree, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+Design an algorithm that runs in less than O(n) time complexity.
+
+Input: root = [1,2,3,4,5,6]
+Output: 6
+
+--------------------------------------------------------------------------------------------------------------------
+
+TC - O(log n)^2
+
+Formula is (2^TreeLevel - 1). Only works for perfect tree.
+To determine if its a perfect tree, go all the way down and count the nodes on left and right side, If they match, its a perfect tree and our formula applies.
+If its not a perfect tree, we go on left and right subtree and again determine if they are perfect tree.
+When we have our left and right heights, we do (1 + left + right)
+If we reach null, return 0
+C++ note: 1 << n is the same as raising 2 to the power n, or 2^n
+
+
+class Solution {
+public:
+    int leftHeight(TreeNode *node){
+        int height=0;
+        while(node){
+            height++;
+            node=node->left;
+        }
+        return height;
+    }
+    
+    int rightHeight(TreeNode *node){
+        int height=0;
+        while(node){
+            height++;
+            node=node->right;
+        }
+        return height;
+    }
+    
+    int countNodes(TreeNode* root) {
+        if(root==NULL)
+            return 0;
+        int lh=leftHeight(root);
+        int rh=rightHeight(root);
+        
+        if(lh==rh)
+            return pow(2,lh)-1;
+        return 1+countNodes(root->left)+countNodes(root->right);
+    }
+};
