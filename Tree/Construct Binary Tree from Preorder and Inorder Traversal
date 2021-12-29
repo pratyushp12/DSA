@@ -1,0 +1,37 @@
+Input: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]
+Output: [3,9,20,null,null,15,7]
+
+------------------------------------------------------------------
+
+The two key observations are:
+
+Preorder traversal follows Root -> Left -> Right, therefore, given the preorder array preorder, we have easy access to the root which is preorder[0].
+
+Inorder traversal follows Left -> Root -> Right, therefore if we know the position of Root, we can recursively split the entire array into two subtrees.
+
+Now the idea should be clear enough. We will design a recursion function: it will set the first element of preorder as the root, and then construct the entire tree. To find 
+the left and right subtrees, it will look for the root in inorder, so that everything on the left should be the left subtree, and everything on the right should be the right
+subtree. Both subtrees can be constructed by making another recursion call.
+
+
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        map<int,int> mp;
+        for(int i=0;i<inorder.size();i++)
+            mp[inorder[i]]=i;
+      TreeNode* root=buildNewTree(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,mp);
+        return root;
+    }
+    
+    TreeNode* buildNewTree(vector<int> &preorder,int preStart,int preEnd,vector<int> &inorder,int inStart,int inEnd,map<int,int> &mp){
+        if(preStart>preEnd || inStart>inEnd)
+            return NULL;
+        TreeNode *root=new TreeNode(preorder[preStart]);
+        int inPos=mp[root->val];
+        int numLeft=inPos-inStart;
+        root->left=buildNewTree(preorder,preStart+1,preStart+numLeft,inorder,inStart,inPos-1,mp);
+        root->right=buildNewTree(preorder,preStart+numLeft+1,preEnd,inorder,inPos+1,inEnd,mp);
+        return root;
+    }
+};
