@@ -1,0 +1,28 @@
+Input: inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]
+Output: [3,9,20,null,null,15,7]
+
+----------------------------------------------------------------
+
+Similar to Tree creation using indorder and Preorder
+
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        map<int,int> mp;
+        for(int i=0;i<inorder.size();i++)
+            mp[inorder[i]]=i;
+        TreeNode* root=buildNewTree(inorder,0,inorder.size()-1,postorder,0,postorder.size()-1,mp);
+        return root;
+    }
+    
+    TreeNode * buildNewTree(vector<int> &inorder,int inStart,int inEnd,vector<int> &postorder,int posStart,int posEnd,map<int,int> &mp){
+        if(inStart>inEnd || posStart>posEnd)
+            return NULL;
+        TreeNode* root=new TreeNode(postorder[posEnd]);
+        int inPos=mp[root->val];
+        int PosLeft=inPos-inStart;
+        root->left=buildNewTree(inorder,inStart,inPos-1,postorder,posStart,posStart+PosLeft-1,mp);
+        root->right=buildNewTree(inorder,inPos+1,inEnd,postorder,posStart+PosLeft,posEnd-1,mp);
+        return root;
+    }
+};
