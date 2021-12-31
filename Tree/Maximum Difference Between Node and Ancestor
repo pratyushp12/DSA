@@ -1,0 +1,49 @@
+Given the root of a binary tree, find the maximum value v for which there exist different nodes a and b where v = |a.val - b.val| and a is an ancestor of b.
+
+A node a is an ancestor of b if either: any child of a is equal to b or any child of a is an ancestor of b.
+
+Example 1:
+
+Input: root = [8,3,10,1,6,null,14,null,null,4,7,13]
+Output: 7
+Explanation: We have various ancestor-node differences, some of which are given below :
+|8 - 3| = 5
+|3 - 7| = 4
+|8 - 1| = 7
+|10 - 13| = 3
+Among all possible differences, the maximum value of 7 is obtained by |8 - 1| = 7.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Recursive Approach :
+Step 1: Initialize a variable result to record the required maximum difference.
+
+Step 2: Define a function helper, which takes three arguments as input.
+The first argument is the current node, and the second and third arguments are the maximum and minimum values along the root to the current node, respectively.
+In the function helper, update result and call helper on the left and right subtrees.
+
+Step 3: Run helper on the root. It will automatically do recursion on every node.
+
+class Solution {
+public:
+    int maxAncestorDiff(TreeNode* root) {
+        int res=0;
+        if(root==NULL || (!root->left && !root->right))
+            return 0;
+        maxDiff(root,root->val,root->val,res);
+        return res;
+    }
+    
+    void maxDiff(TreeNode *root,int minm,int maxm,int &res){
+        if(root==NULL)
+            return;
+        res=max(res,max(abs(minm-root->val),abs(maxm-root->val)));
+        if(maxm<root->val)
+                maxm=root->val;
+        if(minm>root->val)
+                minm=root->val;
+        
+        maxDiff(root->left,minm,maxm,res);
+        maxDiff(root->right,minm,maxm,res);
+    }
+};
