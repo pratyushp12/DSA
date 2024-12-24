@@ -20,3 +20,29 @@ this is the starting point and increment counter and check for next greater ele.
 
 TC: O(N)+O(2N)
 Extra SC: O(N)
+
+
+-------------------------------------------------------------code using map------------------------
+
+var longestConsecutive = function(nums) {
+    const mp=new Map();
+    let res=0;
+    for(let i=0;i<nums.length;i++){
+        mp.set(nums[i],nums[i]);
+    }
+    let i=0;
+    while(i<nums.length){
+        if(!mp.has(nums[i]-1)){
+            let count=0;
+            count++;
+            let j=1;
+            while(mp.has(nums[i]+j)){
+                count++;
+                j++;
+            }
+            res=Math.max(count,res);
+        }
+        i++;
+    }
+    return res;
+};
